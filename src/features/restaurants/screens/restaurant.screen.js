@@ -3,7 +3,6 @@ import { ActivityIndicator } from "react-native-paper";
 import { FavouritesBar } from "../../../components/favourites/favourites-bar.component";
 import { FavouritesContext } from "../../../services/favourites/favourites.context";
 import {
-  FlatList,
   SafeAreaView,
   StatusBar,
   View,
@@ -15,6 +14,8 @@ import { RestaurantInfo } from "../components/restaurant-info.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { RestaurantsContext } from "../../../services/restaurants/restaurant.context";
 import { Search } from "../components/search.component";
+import { RestaurantList } from "../components/restaurant-list.styles";
+import { FadeInView } from "../../../components/animations/fade.animation";
 
 const isAndroid = Platform.OS === "android";
 
@@ -28,12 +29,6 @@ const RestaurantDetails = styled.View`
   flex: 1;
   backgroundcolor: ${(props) => props.theme.colors.bg.secondary};
 `;
-
-const RestaurantList = styled(FlatList).attrs({
-  contentContainerStyle: {
-    padding: 16,
-  },
-})``;
 
 const LoadingCover = styled(View)`
   position: absolute;
@@ -75,7 +70,9 @@ export const RestaurantsScreen = ({ navigation }) => {
                 }
               >
                 <Spacer position="bottom" size="large">
-                  <RestaurantInfo restaurant={item} />
+                  <FadeInView>
+                    <RestaurantInfo restaurant={item} />
+                  </FadeInView>
                 </Spacer>
               </TouchableOpacity>
             );

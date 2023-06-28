@@ -9,6 +9,10 @@ import {
 } from "../components/account.styles";
 import LottieView from "lottie-react-native";
 import { AnimationWrapper } from "../components/account.styles";
+import { Animations } from "../../../components/animations";
+import { Platform } from "react-native";
+
+isAndroid = Platform.OS === "android";
 
 export const AccountScreen = ({ navigation }) => {
   return (
@@ -16,11 +20,11 @@ export const AccountScreen = ({ navigation }) => {
       <AccountCover />
       <AnimationWrapper>
         <LottieView
+          source={isAndroid ? Animations.PanFood : Animations.HotDog}
           key="animation"
           autoPlay
           loop
           resizeMode="cover"
-          source={require("../../../../assets/watermelon.json")}
         />
       </AnimationWrapper>
       <Title>Meals To Go</Title>
