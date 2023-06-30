@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import {
   AccountBackground,
@@ -10,20 +11,28 @@ import {
 import LottieView from "lottie-react-native";
 import { AnimationWrapper } from "../components/account.styles";
 import { Animations } from "../../../components/animations";
-import { Platform } from "react-native";
-
-isAndroid = Platform.OS === "android";
 
 export const AccountScreen = ({ navigation }) => {
+  const animationRef = useRef(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      animationRef.current?.play();
+      return () => {
+        animationRef.current?.reset();
+      };
+    }, [])
+  );
+
   return (
     <AccountBackground>
       <AccountCover />
       <AnimationWrapper>
         <LottieView
-          source={isAndroid ? Animations.PanFood : Animations.HotDog}
-          key="animation"
-          autoPlay
-          loop
+          source={Animations.HotDog}
+          ref={animationRef}
+          autoPlay={true}
+          loop={true}
           resizeMode="cover"
         />
       </AnimationWrapper>
