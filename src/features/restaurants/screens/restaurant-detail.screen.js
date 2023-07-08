@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { ScrollView } from "react-native";
 import { List } from "react-native-paper";
 import { TabLink } from "../components/restaurant-info.styles";
 import { RestaurantInfo } from "../components/restaurant-info.component";
+import { Spacer } from "../../../components/spacer/spacer.component";
+import { OrderButton } from "../components/restaurant-list.styles";
+import { CartContext } from "../../../services/cart/cart.context";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-export const RestaurantDetailScreen = ({ route }) => {
+export const EuroIcon = () => {
+  return <Icon name="euro" color="white" size={18} />;
+};
+
+export const RestaurantDetailScreen = ({ navigation, route }) => {
   const [breakfastExpanded, setBreakfastExpanded] = useState(false);
   const [lunchExpanded, setLunchExpanded] = useState(false);
   const [dinnerExpanded, setDinnerExpanded] = useState(false);
   const [drinksExpanded, setDrinksExpanded] = useState(false);
 
   const { restaurant } = route.params;
+  const { addToCart } = useContext(CartContext);
+
   return (
     <TabLink>
       <RestaurantInfo restaurant={restaurant} />
@@ -60,6 +70,18 @@ export const RestaurantDetailScreen = ({ route }) => {
           <List.Item title="Fanta" />
         </List.Accordion>
       </ScrollView>
+      <Spacer position="bottom" size="large">
+        <OrderButton
+          icon={EuroIcon}
+          mode="contained"
+          onPress={() => {
+            addToCart({ item: "special", price: 1299 }, restaurant);
+            navigation.navigate("Checkout");
+          }}
+        >
+          Order Special Only 12.99!
+        </OrderButton>
+      </Spacer>
     </TabLink>
   );
 };

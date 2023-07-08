@@ -16,10 +16,13 @@ export const LocationContextProvider = ({ children }) => {
     console.log(searchKeyword);
   };
   useEffect(() => {
-    if (!keyword.length) return;
+    if (!keyword.length) {
+      return;
+    }
     LocationRequest(keyword.toLowerCase())
       .then(LocationTransform)
       .then((result) => {
+        setError(null);
         setIsLoading(false);
         setLocation(result);
         console.log(result);

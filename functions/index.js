@@ -1,19 +1,19 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const functions = require("firebase-functions");
+const { geocodeRequest } = require("./geocode");
+const { placesRequest } = require("./places");
+const { payRequest } = require("./pay");
+const { Client } = require("@googlemaps/google-maps-services-js");
+const stripeClient = require("stripe")(functions.config().stripe.key);
+const googleClient = new Client({});
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+exports.geocode = functions.https.onRequest((request, response) => {
+  geocodeRequest(request, response, googleClient);
+});
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+exports.placesNearby = functions.https.onRequest((request, response) => {
+  placesRequest(request, response, googleClient);
+});
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+exports.pay = functions.https.onRequest((request, response) => {
+  payRequest(request, response, stripeClient);
+});

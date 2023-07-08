@@ -16,6 +16,8 @@ import { RestaurantsContext } from "../../../services/restaurants/restaurant.con
 import { Search } from "../components/search.component";
 import { RestaurantList } from "../components/restaurant-list.styles";
 import { FadeInView } from "../../../components/animations/fade.animation";
+import { Text } from "../../../components/typography/text.component";
+import { LocationContext } from "../../../services/location/location.context";
 
 const isAndroid = Platform.OS === "android";
 
@@ -37,9 +39,12 @@ const LoadingCover = styled(View)`
 `;
 
 export const RestaurantsScreen = ({ navigation }) => {
-  const { isLoading, restaurants } = useContext(RestaurantsContext);
+  const { error: locationError } = useContext(LocationContext);
+  const { isLoading, restaurants, error } = useContext(RestaurantsContext);
   const { favourites } = useContext(FavouritesContext);
   const [isToggled, setIsToggled] = useState(false);
+
+  const hasError = !!error || !!locationError;
   return (
     <Container>
       {isLoading && (
@@ -57,29 +62,36 @@ export const RestaurantsScreen = ({ navigation }) => {
           onNavigate={navigation.navigate}
         />
       )}
-      <RestaurantDetails>
-        <RestaurantList
-          data={restaurants}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("RestaurantDetail", {
-                    restaurant: item,
-                  })
-                }
-              >
-                <Spacer position="bottom" size="large">
-                  <FadeInView>
-                    <RestaurantInfo restaurant={item} />
-                  </FadeInView>
-                </Spacer>
-              </TouchableOpacity>
-            );
-          }}
-          keyExtractor={(item) => item.name}
-        />
-      </RestaurantDetails>
+      {hasError && (
+        <Spacer position="left" size="large">
+          <Text variant="error">Something went wrong retrieving the data</Text>
+        </Spacer>
+      )}
+      {!hasError && (
+        <RestaurantDetails>
+          <RestaurantList
+            data={restaurants}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("RestaurantDetail", {
+                      restaurant: item,
+                    })
+                  }
+                >
+                  <Spacer position="bottom" size="large">
+                    <FadeInView>
+                      <RestaurantInfo restaurant={item} />
+                    </FadeInView>
+                  </Spacer>
+                </TouchableOpacity>
+              );
+            }}
+            keyExtractor={(item) => item.name}
+          />
+        </RestaurantDetails>
+      )}
     </Container>
   );
 };

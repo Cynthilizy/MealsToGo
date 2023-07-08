@@ -10,7 +10,7 @@ module.exports = {
     "@react-native-community",
   ],
   parserOptions: {
-    ecmaVersion: "latest",
+    ecmaVersion: 2022,
     sourceType: "module",
     babelOptions: {
       configFile: "./babel.config.js",
