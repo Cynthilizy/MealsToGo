@@ -9,6 +9,7 @@ import { RestaurantsContextProvider } from "../../services/restaurants/restauran
 import { SettingsNavigator } from "./settings.navigator";
 import { CheckoutNavigator } from "./checkout.navigator";
 import { CartContextProvider } from "../../services/cart/cart.context";
+import { colors } from "../theme/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -35,8 +36,8 @@ export const MyTabs = () => {
                   }
                   return <Ionicons name={iconName} color={color} size={size} />;
                 },
-                tabBarActiveTintColor: "tomato",
-                tabBarInactiveTintColor: "gray",
+                tabBarActiveTintColor: colors.brand.primary,
+                tabBarInactiveTintColor: colors.brand.muted,
                 headerShown: false,
               })}
             >

@@ -5,7 +5,6 @@ import { LocationContext } from "../../../services/location/location.context";
 import { RestaurantsContext } from "../../../services/restaurants/restaurant.context";
 import { SearchMap } from "../components/search.component";
 import { MapCallout } from "../components/map-callout.component";
-import { CheckoutScreen } from "../../checkout/screens/checkout.screen";
 
 const Map = styled(MapView)`
   height: 100%;
@@ -34,7 +33,7 @@ const RestaurantMap = ({ navigation }) => {
           latitude: lat,
           longitude: lng,
           latitudeDelta: latDelta,
-          longitudeDelta: 0.02,
+          longitudeDelta: 0.01,
         }}
       >
         {restaurants.map((restaurant) => {

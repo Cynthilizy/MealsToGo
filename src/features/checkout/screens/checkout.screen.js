@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { TabLink } from "../../restaurants/components/restaurant-info.styles";
 import { CreditCardInput } from "../components/credit-card.components";
 import { CartContext } from "../../../services/cart/cart.context";
@@ -14,7 +14,7 @@ import {
   PaymentProcessing,
 } from "../components/checkout.styles";
 import { ScrollView } from "react-native";
-import { List } from "react-native-paper";
+import { List, Divider } from "react-native-paper";
 import { RestaurantInfo } from "../../restaurants/components/restaurant-info.component";
 import { payRequest } from "../../../services/checkout/checkout.service";
 
@@ -75,6 +75,8 @@ export const CheckoutScreen = ({ navigation }) => {
           </List.Section>
           <Text>Total: {sum / 100}</Text>
         </Spacer>
+        <Spacer position="top" size="large" />
+        <Divider />
         <NameInput
           label="Name"
           value={name}
